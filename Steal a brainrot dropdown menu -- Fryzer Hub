@@ -43,7 +43,7 @@ title.Parent = mainFrame
 local subtitle = Instance.new("TextLabel")
 subtitle.Size = UDim2.new(1, 0, 0, 30)
 subtitle.Position = UDim2.new(0,0,0,40)
-subtitle.Text = "Key will change in 2 hours"
+subtitle.Text = "Key Changed "
 subtitle.TextColor3 = Color3.fromRGB(180,180,180)
 subtitle.BackgroundTransparency = 1
 subtitle.Font = Enum.Font.Gotham
@@ -119,7 +119,7 @@ end
 
 -- Functionality
 checkButton.MouseButton1Click:Connect(function()
-    if textBox.Text == "G9mX4rT2qL8vB1nZ" then
+    if textBox.Text == "SubToProGamer_boy" then
         textBox.Text = "Key Verified!!✅"
         task.delay(1, function()
             fadeOutAndDestroy()
