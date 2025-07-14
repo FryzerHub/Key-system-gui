@@ -126,11 +126,11 @@ checkButton.MouseButton1Click:Connect(function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/FryzerHub/Scripts/refs/heads/main/steal%20a%20brinrot%20not%20hub"))()
         end)
     else
-        textBox.Text = "Get Key"
+        textBox.Text = "Invaild Key"
     end
 end)
 
 getKeyButton.MouseButton1Click:Connect(function()
-    setclipboard("https://direct-link.net/1345739/XhNMKyGS7Lm4")
-    textBox.Text = "Link copied "
+    setclipboard("https://link-target.net/1345739/aGoWM0iyCENH")
+    textBox.Text = "Link copied to clipboard "
 end)
