@@ -131,6 +131,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/FryzerHub/Scripts/ref
 end)
 
 getKeyButton.MouseButton1Click:Connect(function()
-    setclipboard("https://link-target.net/1345739/aGoWM0iyCENH")
+    setclipboard("https://direct-link.net/1345739/p8ngU3JzZgcg")
     textBox.Text = "Link copied to clipboard "
 end)
