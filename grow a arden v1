@@ -125,11 +125,11 @@ checkButton.MouseButton1Click:Connect(function()
             fadeOutAndDestroy()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/FryzerHub/Scripts/refs/heads/main/gag%20tore%20me%20gui"))()
     else
-        textBox.Text = "Get Key"
+        textBox.Text = "Invaild Key"
     end
 end)
 
 getKeyButton.MouseButton1Click:Connect(function()
-    setclipboard("https://direct-link.net/1345739/XhNMKyGS7Lm4")
+    setclipboard("https://link-hub.net/1345739/FBgODMpxNsqY")
     textBox.Text = "Link copied "
 end)
