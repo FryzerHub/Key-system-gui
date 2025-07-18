@@ -43,7 +43,7 @@ title.Parent = mainFrame
 local subtitle = Instance.new("TextLabel")
 subtitle.Size = UDim2.new(1, 0, 0, 30)
 subtitle.Position = UDim2.new(0,0,0,40)
-subtitle.Text = " 2 Key Changed "
+subtitle.Text = "Thanks for using the script"
 subtitle.TextColor3 = Color3.fromRGB(180,180,180)
 subtitle.BackgroundTransparency = 1
 subtitle.Font = Enum.Font.Gotham
@@ -124,8 +124,9 @@ checkButton.MouseButton1Click:Connect(function()
         task.delay(1, function()
             fadeOutAndDestroy()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/FryzerHub/Scripts/refs/heads/main/gag%20tore%20me%20gui"))()
+        end)
     else
-        textBox.Text = "Invaild Key"
+        textBox.Text = "Get Key"
     end
 end)
 
