@@ -1,0 +1,512 @@
+-- Fryzer Hub Key System GUI
+-- Easy to customize with variables at the top
+
+-- ===== CUSTOMIZATION VARIABLES =====
+local CORRECT_KEY = "-SCRIP_WITH_FRYZER-HUB" -- Change this to your desired key
+local GET_KEY_URL = "https://link-center.net/1345739/C8iDlxh7PdEE" -- Change this to your key URL
+local LOADSTRING_CODE = [[
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/FryzerHub/Scripts/refs/heads/main/99%20nights"))()
+]]
+
+-- ===== GUI CREATION =====
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Remove existing GUI if it exists
+if playerGui:FindFirstChild("FryzerHubGUI") then
+    playerGui:FindFirstChild("FryzerHubGUI"):Destroy()
+end
+
+-- Create main ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "FryzerHubGUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = playerGui
+
+-- Create main frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 400, 0, 250)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -125)
+mainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+
+-- Add corner radius to main frame
+local mainCorner = Instance.new("UICorner")
+mainCorner.CornerRadius = UDim.new(0, 12)
+mainCorner.Parent = mainFrame
+
+-- Create RGB border effect
+local rgbFrame = Instance.new("Frame")
+rgbFrame.Size = UDim2.new(1, 6, 1, 6)
+rgbFrame.Position = UDim2.new(0, -3, 0, -3)
+rgbFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+rgbFrame.BorderSizePixel = 0
+rgbFrame.ZIndex = mainFrame.ZIndex - 1
+rgbFrame.Parent = mainFrame
+
+local rgbCorner = Instance.new("UICorner")
+rgbCorner.CornerRadius = UDim.new(0, 15)
+rgbCorner.Parent = rgbFrame
+
+-- RGB Animation (Even Faster)
+spawn(function()
+    local hue = 0
+    while rgbFrame.Parent do
+        hue = hue + 4
+        if hue > 360 then hue = 0 end
+        rgbFrame.BackgroundColor3 = Color3.fromHSV(hue/360, 1, 1)
+        wait(0.01) -- Even faster RGB animation
+    end
+end)
+
+-- Create title
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0, 40)
+titleLabel.Position = UDim2.new(0, 0, 0, 15)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "Fryzer Hub"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.TextSize = 24
+titleLabel.TextScaled = true
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.Parent = mainFrame
+
+-- Create subtitle
+local subtitleLabel = Instance.new("TextLabel")
+subtitleLabel.Size = UDim2.new(1, 0, 0, 20)
+subtitleLabel.Position = UDim2.new(0, 0, 0, 55)
+subtitleLabel.BackgroundTransparency = 1
+subtitleLabel.Text = "Key System"
+subtitleLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+subtitleLabel.TextSize = 14
+subtitleLabel.TextScaled = true
+subtitleLabel.Font = Enum.Font.Gotham
+subtitleLabel.Parent = mainFrame
+
+-- Create key input textbox
+local keyTextBox = Instance.new("TextBox")
+keyTextBox.Size = UDim2.new(0.8, 0, 0, 35)
+keyTextBox.Position = UDim2.new(0.1, 0, 0, 100)
+keyTextBox.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+keyTextBox.BorderSizePixel = 0
+keyTextBox.Text = ""
+keyTextBox.PlaceholderText = "Enter your key here..."
+keyTextBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
+keyTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+keyTextBox.TextSize = 14
+keyTextBox.Font = Enum.Font.Gotham
+keyTextBox.ClearTextOnFocus = false
+keyTextBox.Parent = mainFrame
+
+-- Add corner to textbox
+local textBoxCorner = Instance.new("UICorner")
+textBoxCorner.CornerRadius = UDim.new(0, 6)
+textBoxCorner.Parent = keyTextBox
+
+-- Create Next button
+local nextButton = Instance.new("TextButton")
+nextButton.Size = UDim2.new(0.35, 0, 0, 35)
+nextButton.Position = UDim2.new(0.1, 0, 0, 160)
+nextButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+nextButton.BorderSizePixel = 0
+nextButton.Text = "Next"
+nextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+nextButton.TextSize = 16
+nextButton.Font = Enum.Font.GothamBold
+nextButton.Parent = mainFrame
+
+-- Add corner to next button
+local nextCorner = Instance.new("UICorner")
+nextCorner.CornerRadius = UDim.new(0, 6)
+nextCorner.Parent = nextButton
+
+-- Create Get Key button
+local getKeyButton = Instance.new("TextButton")
+getKeyButton.Size = UDim2.new(0.35, 0, 0, 35)
+getKeyButton.Position = UDim2.new(0.55, 0, 0, 160)
+getKeyButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+getKeyButton.BorderSizePixel = 0
+getKeyButton.Text = "Get Key"
+getKeyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+getKeyButton.TextSize = 16
+getKeyButton.Font = Enum.Font.GothamBold
+getKeyButton.Parent = mainFrame
+
+-- Add corner to get key button
+local getKeyCorner = Instance.new("UICorner")
+getKeyCorner.CornerRadius = UDim.new(0, 6)
+getKeyCorner.Parent = getKeyButton
+
+-- Create status label
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Size = UDim2.new(1, 0, 0, 25)
+statusLabel.Position = UDim2.new(0, 0, 0, 210)
+statusLabel.BackgroundTransparency = 1
+statusLabel.Text = ""
+statusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
+statusLabel.TextSize = 12
+statusLabel.TextScaled = true
+statusLabel.Font = Enum.Font.Gotham
+statusLabel.Parent = mainFrame
+
+-- Create Get Key popup frame (initially hidden)
+local getKeyFrame = Instance.new("Frame")
+getKeyFrame.Size = UDim2.new(0, 280, 0, 150)
+getKeyFrame.Position = UDim2.new(0, 50, 0.5, -75) -- Position to the left side
+getKeyFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+getKeyFrame.BorderSizePixel = 0
+getKeyFrame.Visible = false
+getKeyFrame.Parent = screenGui
+
+-- Add corner radius to popup frame
+local popupCorner = Instance.new("UICorner")
+popupCorner.CornerRadius = UDim.new(0, 12)
+popupCorner.Parent = getKeyFrame
+
+-- Create RGB border for popup
+local popupRGBFrame = Instance.new("Frame")
+popupRGBFrame.Size = UDim2.new(1, 6, 1, 6)
+popupRGBFrame.Position = UDim2.new(0, -3, 0, -3)
+popupRGBFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+popupRGBFrame.BorderSizePixel = 0
+popupRGBFrame.ZIndex = getKeyFrame.ZIndex - 1
+popupRGBFrame.Parent = getKeyFrame
+
+local popupRGBCorner = Instance.new("UICorner")
+popupRGBCorner.CornerRadius = UDim.new(0, 15)
+popupRGBCorner.Parent = popupRGBFrame
+
+-- RGB Animation for popup (Even Faster)
+spawn(function()
+    local hue = 0
+    while popupRGBFrame.Parent do
+        hue = hue + 4
+        if hue > 360 then hue = 0 end
+        popupRGBFrame.BackgroundColor3 = Color3.fromHSV(hue/360, 1, 1)
+        wait(0.01)
+    end
+end)
+
+-- Popup title
+local popupTitle = Instance.new("TextLabel")
+popupTitle.Size = UDim2.new(1, 0, 0, 25)
+popupTitle.Position = UDim2.new(0, 0, 0, 10)
+popupTitle.BackgroundTransparency = 1
+popupTitle.Text = "Get Key"
+popupTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+popupTitle.TextSize = 16
+popupTitle.TextScaled = true
+popupTitle.Font = Enum.Font.GothamBold
+popupTitle.Parent = getKeyFrame
+
+-- URL display label
+local urlLabel = Instance.new("TextLabel")
+urlLabel.Size = UDim2.new(0.9, 0, 0, 25)
+urlLabel.Position = UDim2.new(0.05, 0, 0, 45)
+urlLabel.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+urlLabel.BorderSizePixel = 0
+urlLabel.Text = GET_KEY_URL
+urlLabel.TextColor3 = Color3.fromRGB(150, 150, 255)
+urlLabel.TextSize = 10
+urlLabel.TextScaled = true
+urlLabel.Font = Enum.Font.Gotham
+urlLabel.Parent = getKeyFrame
+
+-- Add corner to URL label
+local urlCorner = Instance.new("UICorner")
+urlCorner.CornerRadius = UDim.new(0, 4)
+urlCorner.Parent = urlLabel
+
+-- Copy button for popup
+local copyButton = Instance.new("TextButton")
+copyButton.Size = UDim2.new(0.4, 0, 0, 25)
+copyButton.Position = UDim2.new(0.3, 0, 0, 85)
+copyButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+copyButton.BorderSizePixel = 0
+copyButton.Text = "Copy URL"
+copyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyButton.TextSize = 12
+copyButton.Font = Enum.Font.GothamBold
+copyButton.Parent = getKeyFrame
+
+-- Add corner to copy button
+local copyCorner = Instance.new("UICorner")
+copyCorner.CornerRadius = UDim.new(0, 4)
+copyCorner.Parent = copyButton
+
+-- Close button for popup
+local popupCloseButton = Instance.new("TextButton")
+popupCloseButton.Size = UDim2.new(0, 20, 0, 20)
+popupCloseButton.Position = UDim2.new(1, -28, 0, 8)
+popupCloseButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+popupCloseButton.BorderSizePixel = 0
+popupCloseButton.Text = "X"
+popupCloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+popupCloseButton.TextSize = 12
+popupCloseButton.Font = Enum.Font.GothamBold
+popupCloseButton.Parent = getKeyFrame
+
+local popupCloseCorner = Instance.new("UICorner")
+popupCloseCorner.CornerRadius = UDim.new(0, 3)
+popupCloseCorner.Parent = popupCloseButton
+
+-- Create close button for main frame (REMOVED - No close button needed)
+
+-- ===== FUNCTIONALITY =====
+
+-- Button hover effects
+local function createHoverEffect(button, normalColor, hoverColor)
+    button.MouseEnter:Connect(function()
+        TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = hoverColor}):Play()
+    end)
+    
+    button.MouseLeave:Connect(function()
+        TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = normalColor}):Play()
+    end)
+end
+
+createHoverEffect(nextButton, Color3.fromRGB(0, 150, 0), Color3.fromRGB(0, 180, 0))
+createHoverEffect(getKeyButton, Color3.fromRGB(0, 100, 200), Color3.fromRGB(0, 130, 230))
+createHoverEffect(copyButton, Color3.fromRGB(0, 150, 0), Color3.fromRGB(0, 180, 0))
+createHoverEffect(popupCloseButton, Color3.fromRGB(200, 50, 50), Color3.fromRGB(230, 50, 50))
+
+-- Status message function
+local function showStatus(message, color)
+    statusLabel.Text = message
+    statusLabel.TextColor3 = color or Color3.fromRGB(255, 100, 100)
+    
+    -- Fade out after 3 seconds
+    wait(3)
+    TweenService:Create(statusLabel, TweenInfo.new(0.5), {TextTransparency = 1}):Play()
+    wait(0.5)
+    statusLabel.Text = ""
+    statusLabel.TextTransparency = 0
+end
+
+-- Next button functionality
+nextButton.MouseButton1Click:Connect(function()
+    local enteredKey = keyTextBox.Text
+    
+    if enteredKey == CORRECT_KEY then
+        -- Correct key entered - destroy GUI and run loadstring
+        screenGui:Destroy()
+        loadstring(LOADSTRING_CODE)()
+        
+    else
+        -- Wrong key
+        spawn(function()
+            showStatus("Wrong key! Please try again.", Color3.fromRGB(255, 100, 100))
+        end)
+        
+        -- Shake animation for wrong key
+        local originalPos = mainFrame.Position
+        for i = 1, 6 do
+            mainFrame.Position = originalPos + UDim2.new(0, math.random(-5, 5), 0, 0)
+            wait(0.05)
+        end
+        mainFrame.Position = originalPos
+    end
+end)
+
+-- Get Key button functionality
+getKeyButton.MouseButton1Click:Connect(function()
+    -- Check if Get Key GUI already exists and destroy it
+    if playerGui:FindFirstChild("FryzerHubGetKey") then
+        playerGui:FindFirstChild("FryzerHubGetKey"):Destroy()
+    end
+    
+    -- Create completely new GUI for Get Key
+    local getKeyGui = Instance.new("ScreenGui")
+    getKeyGui.Name = "FryzerHubGetKey"
+    getKeyGui.ResetOnSpawn = false
+    getKeyGui.Parent = playerGui
+    
+    -- Create new frame for this GUI
+    local newGetKeyFrame = Instance.new("Frame")
+    newGetKeyFrame.Size = UDim2.new(0, 280, 0, 150)
+    newGetKeyFrame.Position = UDim2.new(0, 50, 0.5, -75) -- Position to the left side
+    newGetKeyFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+    newGetKeyFrame.BorderSizePixel = 0
+    newGetKeyFrame.Parent = getKeyGui
+    
+    -- Add corner radius
+    local newPopupCorner = Instance.new("UICorner")
+    newPopupCorner.CornerRadius = UDim.new(0, 12)
+    newPopupCorner.Parent = newGetKeyFrame
+    
+    -- Create RGB border
+    local newPopupRGBFrame = Instance.new("Frame")
+    newPopupRGBFrame.Size = UDim2.new(1, 6, 1, 6)
+    newPopupRGBFrame.Position = UDim2.new(0, -3, 0, -3)
+    newPopupRGBFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    newPopupRGBFrame.BorderSizePixel = 0
+    newPopupRGBFrame.ZIndex = newGetKeyFrame.ZIndex - 1
+    newPopupRGBFrame.Parent = newGetKeyFrame
+    
+    local newPopupRGBCorner = Instance.new("UICorner")
+    newPopupRGBCorner.CornerRadius = UDim.new(0, 15)
+    newPopupRGBCorner.Parent = newPopupRGBFrame
+    
+    -- RGB Animation for new popup
+    spawn(function()
+        local hue = 0
+        while newPopupRGBFrame.Parent do
+            hue = hue + 4
+            if hue > 360 then hue = 0 end
+            newPopupRGBFrame.BackgroundColor3 = Color3.fromHSV(hue/360, 1, 1)
+            wait(0.01)
+        end
+    end)
+    
+    -- Create title
+    local newPopupTitle = Instance.new("TextLabel")
+    newPopupTitle.Size = UDim2.new(1, 0, 0, 25)
+    newPopupTitle.Position = UDim2.new(0, 0, 0, 10)
+    newPopupTitle.BackgroundTransparency = 1
+    newPopupTitle.Text = "Get Key"
+    newPopupTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    newPopupTitle.TextSize = 16
+    newPopupTitle.TextScaled = true
+    newPopupTitle.Font = Enum.Font.GothamBold
+    newPopupTitle.Parent = newGetKeyFrame
+    
+    -- Create URL label
+    local newUrlLabel = Instance.new("TextLabel")
+    newUrlLabel.Size = UDim2.new(0.9, 0, 0, 25)
+    newUrlLabel.Position = UDim2.new(0.05, 0, 0, 45)
+    newUrlLabel.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    newUrlLabel.BorderSizePixel = 0
+    newUrlLabel.Text = GET_KEY_URL
+    newUrlLabel.TextColor3 = Color3.fromRGB(150, 150, 255)
+    newUrlLabel.TextSize = 10
+    newUrlLabel.TextScaled = true
+    newUrlLabel.Font = Enum.Font.Gotham
+    newUrlLabel.Parent = newGetKeyFrame
+    
+    local newUrlCorner = Instance.new("UICorner")
+    newUrlCorner.CornerRadius = UDim.new(0, 4)
+    newUrlCorner.Parent = newUrlLabel
+    
+    -- Create copy button
+    local newCopyButton = Instance.new("TextButton")
+    newCopyButton.Size = UDim2.new(0.4, 0, 0, 25)
+    newCopyButton.Position = UDim2.new(0.3, 0, 0, 85)
+    newCopyButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+    newCopyButton.BorderSizePixel = 0
+    newCopyButton.Text = "Copy URL"
+    newCopyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    newCopyButton.TextSize = 12
+    newCopyButton.Font = Enum.Font.GothamBold
+    newCopyButton.Parent = newGetKeyFrame
+    
+    local newCopyCorner = Instance.new("UICorner")
+    newCopyCorner.CornerRadius = UDim.new(0, 4)
+    newCopyCorner.Parent = newCopyButton
+    
+    -- Create close button
+    local newPopupCloseButton = Instance.new("TextButton")
+    newPopupCloseButton.Size = UDim2.new(0, 20, 0, 20)
+    newPopupCloseButton.Position = UDim2.new(1, -28, 0, 8)
+    newPopupCloseButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    newPopupCloseButton.BorderSizePixel = 0
+    newPopupCloseButton.Text = "X"
+    newPopupCloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    newPopupCloseButton.TextSize = 12
+    newPopupCloseButton.Font = Enum.Font.GothamBold
+    newPopupCloseButton.Parent = newGetKeyFrame
+    
+    local newPopupCloseCorner = Instance.new("UICorner")
+    newPopupCloseCorner.CornerRadius = UDim.new(0, 3)
+    newPopupCloseCorner.Parent = newPopupCloseButton
+    
+    -- Add hover effects
+    createHoverEffect(newCopyButton, Color3.fromRGB(0, 150, 0), Color3.fromRGB(0, 180, 0))
+    createHoverEffect(newPopupCloseButton, Color3.fromRGB(200, 50, 50), Color3.fromRGB(230, 50, 50))
+    
+    -- Copy button functionality
+    newCopyButton.MouseButton1Click:Connect(function()
+        setclipboard(GET_KEY_URL)
+        
+        -- Change button text temporarily
+        newCopyButton.Text = "Copied!"
+        newCopyButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        
+        wait(1)
+        
+        newCopyButton.Text = "Copy URL"
+        newCopyButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+    end)
+    
+    -- Close button functionality
+    newPopupCloseButton.MouseButton1Click:Connect(function()
+        getKeyGui:Destroy()
+    end)
+    
+    -- Fade in animation
+    newGetKeyFrame.BackgroundTransparency = 1
+    TweenService:Create(newGetKeyFrame, TweenInfo.new(0.3), {BackgroundTransparency = 0}):Play()
+end)
+
+-- Copy button functionality (original - now unused)
+copyButton.MouseButton1Click:Connect(function()
+    setclipboard(GET_KEY_URL)
+    
+    -- Change button text temporarily
+    copyButton.Text = "Copied!"
+    copyButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+    
+    wait(1)
+    
+    copyButton.Text = "Copy URL"
+    copyButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+end)
+
+-- Close button functionality (original - now unused)
+popupCloseButton.MouseButton1Click:Connect(function()
+    -- This is now handled in the new Get Key functionality
+    if getKeyFrame.Parent and getKeyFrame.Parent.Name == "FryzerHubGetKey" then
+        getKeyFrame.Parent:Destroy()
+    else
+        getKeyFrame.Visible = false
+    end
+end)
+
+-- Enter key to submit
+keyTextBox.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        nextButton.MouseButton1Click:Fire()
+    end
+end)
+
+-- Make GUI draggable
+local dragging = false
+local dragStart = nil
+local startPos = nil
+
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+    end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+print("Fryzer Hub Key System loaded successfully!")
